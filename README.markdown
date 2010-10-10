@@ -1,11 +1,10 @@
 Prepend
 --------------
 
-(c) John Mair (banisterfiend) 
+(c) John Mair (banisterfiend), Asher (Asher)
 MIT license
 
-Enables modules to be prepended to classes (or other modules). Methods
-will then be looked up in module before the class.
+Enables modules to be prepended to classes (or other modules). 
 
 ** This is BETA software and has not yet been thoroughly tested, use
    at own risk **
