@@ -12,7 +12,13 @@ class_mod_wrapper_to_s(VALUE self)
 static VALUE
 klass_to_s(VALUE self)
 {
-  return rb_str_concat(rb_mod_name(self), rb_str_new2("*"));
+  VALUE name;
+  if (NIL_P(rb_mod_name(self)))
+    name = rb_str_new2("Anon");
+  else
+    name = rb_mod_name(self);
+        
+  return rb_str_concat(name, rb_str_new2("*"));
 }
 
 static VALUE
@@ -20,6 +26,7 @@ rb_prepend_module(VALUE klass, VALUE module)
 {
   /* create wrapper module to hold current class's M_TBL */
   VALUE class_mod_wrapper = rb_module_new();
+  VALUE name;
 
   /* clear the default M_TBL already allocated for the new wrapper module */
   st_free_table(RCLASS_M_TBL(class_mod_wrapper));
@@ -28,7 +35,12 @@ rb_prepend_module(VALUE klass, VALUE module)
   RCLASS_M_TBL(class_mod_wrapper) = RCLASS_M_TBL(klass);
 
   /* store name of current class in wrapper module for use by #to_s and #inspect */
-  rb_iv_set(class_mod_wrapper, "__class_name__", rb_mod_name(klass));
+  if (NIL_P(rb_mod_name(klass)))
+    name = rb_str_new2("Anon");
+  else
+    name = rb_mod_name(klass);
+
+  rb_iv_set(class_mod_wrapper, "__class_name__", name);
 
   /* set current class's #to_s to return ClassName* */
   rb_define_singleton_method(klass, "to_s", klass_to_s, 0);

@@ -1,2 +1,5 @@
-10/10/210 version 0.1.0
+29/10/2010 version 0.1.5
+* when module/class has no name set name to Anon rather than leave as nil,
+  as this may be causing segfault with rb_str_concat
+10/10/2010 version 0.1.0
 * release!
